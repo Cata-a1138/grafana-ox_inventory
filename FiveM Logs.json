@@ -1,0 +1,321 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "loki"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 160
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "event"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 70
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "addItem": {
+                        "index": 0,
+                        "text": "添加物品"
+                      },
+                      "admin": {
+                        "index": 4,
+                        "text": "管理员"
+                      },
+                      "buyItem": {
+                        "index": 2,
+                        "text": "购买物品"
+                      },
+                      "giveItem": {
+                        "index": 5,
+                        "text": "给予物品"
+                      },
+                      "removeItem": {
+                        "index": 1,
+                        "text": "移除物品"
+                      },
+                      "swapSlots": {
+                        "index": 3,
+                        "text": "交换物品"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "message"
+            },
+            "properties": [
+              {
+                "id": "custom.width"
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "pattern": "\"([^\"]+)\"\\sadded\\s(\\d+x\\s[^\\s\"]+)\\sto\\s\"([^\"]+)\"",
+                      "result": {
+                        "index": 0,
+                        "text": "$1 添加 $2 给 $3"
+                      }
+                    },
+                    "type": "regex"
+                  },
+                  {
+                    "options": {
+                      "pattern": "\"([^\"]+)\"\\sremoved\\s(\\d+x\\s[^\\s\"]+)\\sfrom\\s\"([^\"]+)\"",
+                      "result": {
+                        "index": 1,
+                        "text": "$1 移除 $2 从 $3"
+                      }
+                    },
+                    "type": "regex"
+                  },
+                  {
+                    "options": {
+                      "pattern": "\"([^\"]+)\"\\sgave\\s(\\d+x\\s[^\\s\"]+)\\sto\\s\"([^\"]+)\"",
+                      "result": {
+                        "index": 2,
+                        "text": "$1 给予 $2 给 $3"
+                      }
+                    },
+                    "type": "regex"
+                  },
+                  {
+                    "options": {
+                      "pattern": "(\\d+x\\s[^\\s\"]+)\\stransferred\\sfrom\\s\"([^\"]+)\"\\sto\\s\"([^\"]+)\"",
+                      "result": {
+                        "index": 3,
+                        "text": "$1 从 $2 移动到 $3"
+                      }
+                    },
+                    "type": "regex"
+                  },
+                  {
+                    "options": {
+                      "pattern": "(\\d+x\\s[^\\s\"]+)\\stransferred\\sfrom\\s\"([^\"]+)\"\\sto\\s\"([^\"]+)\"\\sfor\\s(\\d+x\\s[^\\s\"]+)",
+                      "result": {
+                        "index": 4,
+                        "text": "$1 从 $2 移动到 $3 换取 $4"
+                      }
+                    },
+                    "type": "regex"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "shop"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "时间"
+          }
+        ]
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki"
+          },
+          "editorMode": "builder",
+          "expr": "{resource=\"ox_inventory\"} |~ `$search`",
+          "legendFormat": "",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "ox_inventory",
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "format": "json",
+            "jsonPaths": [
+              {
+                "path": "event"
+              }
+            ],
+            "source": "labels"
+          }
+        },
+        {
+          "id": "extractFields",
+          "options": {
+            "format": "json",
+            "keepTime": false,
+            "replace": false,
+            "source": "Line"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Line": true,
+              "id": true,
+              "labels": true,
+              "tsNs": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "Line": 2,
+              "Time": 1,
+              "event": 5,
+              "id": 4,
+              "labels": 0,
+              "message": 6,
+              "shop": 7,
+              "tsNs": 3
+            },
+            "renameByName": {
+              "Line": "",
+              "Time": "时间",
+              "event": "事件",
+              "labels": "",
+              "message": "消息",
+              "shop": "商店",
+              "tsNs": ""
+            }
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "description": "搜索数据",
+        "hide": 0,
+        "label": "搜索",
+        "name": "search",
+        "options": [],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "FiveM Logs",
+  "uid": "f49b19d3-6e39-4228-90ea-0add3f684ab3",
+  "version": 39,
+  "weekStart": ""
+}
